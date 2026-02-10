@@ -17,18 +17,21 @@ import java.util.logging.Level;
 public class SpigotPlugin extends JavaPlugin {
 
     @Override
+    public void onLoad() {
+        new CommandAPICommand("moveplayer")
+          .withArguments(new PlayerArgument("player"))
+          .withArguments(new GreedyStringArgument("server"))
+          .withPermission(CommandPermission.OP)
+          .executes(this::moveCommand)
+          .register();
+
+    }
+
+    @Override
     public void onEnable() {
         super.onEnable();
         getServer().getMessenger().registerOutgoingPluginChannel(this, MoveMessage.channelID);
         //getCommand("moveplayer").setExecutor(this::moveCommand);
-
-        new CommandAPICommand("moveplayer")
-                .withArguments(new PlayerArgument("player"))
-                .withArguments(new GreedyStringArgument("server"))
-                .withPermission(CommandPermission.OP)
-                .executes(this::moveCommand)
-                .register();
-
     }
 
 
